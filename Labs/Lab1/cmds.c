@@ -15,6 +15,7 @@ int main(int argc, char *argv[]) {
     int intVal = atoi(argv[2]); // Second argument converted to an integer
     float floatVal = atof(argv[3]); // Third argument converted to a float
     char stringVal[100]; // Fourth argument is a string 
+    // strncpy only copies over the number of chars in the third param
     strncpy(stringVal, argv[4], sizeof(stringVal) - 1); 
     stringVal[sizeof(stringVal) - 1] = '\0'; // Null-terminate to prevent overflow
 
