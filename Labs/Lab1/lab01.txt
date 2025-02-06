@@ -1,3 +1,19 @@
 Chang Min Bark
 
-1.b. The parent and the child each have their own copies of num as processes do not share information.
+1.b. 
+The parent and the child each have their own copies of num as processes do not share information.
+
+2.a. 
+i and x exist in the data segment (global and static variables)
+
+pid and y exist in the stack segment (function calls, local variables, and return address)
+
+2.b. 
+1) The parent's data and stack segments are copied over to the child.
+2) The changes to these variables made by the child are NOT seen by the parent.
+
+2.d.
+1) Yes, if one process closes the file, the other can still read from it.
+2) Yes, the child's read operation will affect the parent's read operation. 
+This is because the file descriptor will point to where the last read operation finished reading bytes.
+

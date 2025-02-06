@@ -1,7 +1,7 @@
 CC = gcc
-CFLAGS = -std=gnu99 -Wall -g #-DDEBUG
+CFLAGS = -std=gnu99 -Wall -Werror -g #-DDEBUG
 
-EXECS = cmds cmdreverse myprog fork fork-test fork-wait
+EXECS = cmds cmdreverse myprog fork fork-wait fork-data fork-file
 
 all: $(EXECS)
 
@@ -14,8 +14,14 @@ cmdreverse: cmdreverse.c
 fork: fork.c
 	$(CC) $(CFLAGS) fork.c -o fork
 
-forkwait: forkwait.c
+fork-wait: fork-wait.c
 	$(CC) $(CFLAGS) fork-wait.c -o fork-wait
+
+fork-data: fork-data.c
+	$(CC) $(CFLAGS) fork-data.c -o fork-data
+
+fork-file: fork-file.c
+	$(CC) $(CFLAGS) fork-file.c -o fork-file
 
 myprog: myprog.c
 	$(CC) $(CFLAGS) myprog.c -o myprog
