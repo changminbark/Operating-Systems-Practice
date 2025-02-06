@@ -1,0 +1,3 @@
+Chang Min Bark
+
+1.b. The parent and the child each have their own copies of num as processes do not share information.
