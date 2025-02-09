@@ -1,0 +1,18 @@
+1. A parent process's heap is deep copied into a child's heap (they are separate and distinct) in linux.
+
+2. When a child process is created using fork(), it inherits all of the file descriptors. It copies over file descriptors (integers) pointing to the same "file".
+
+3. 
+Similarities: 
+- Both use file descriptors
+- Use standard system calls like read, write, close.
+- Blocking behavior -> reading from a file/pipe can block until data is available
+- Can use dup2() to director stdin, stdout, and stderr
+
+Differences:
+- Files are persistence while pipes and temporary
+- Files are not used for IPC while pipes are
+- Files can be accessed randomly (lseek) while pipes only support sequential access (FIFO)
+- Multiple processes can open and access the same file at different times (readers-writer lock) but pipes only allow 2 related processes
+- Files limited by disk space while pipes are limited by buffer size
+- Files exist as a file in the filesystem while pipes don't
