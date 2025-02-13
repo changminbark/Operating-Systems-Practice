@@ -1,7 +1,7 @@
 CC = gcc
 CFLAGS = -std=gnu99 -Wall -Werror -g #-DDEBUG
 
-EXECS = heap-test pipe-test pipes upper
+EXECS = heap-test pipe-test pipes upper tokens
 
 all: $(EXECS)
 
@@ -16,6 +16,9 @@ pipes: pipes.c
 
 upper: upper.c
 	$(CC) $(CFLAGS) upper.c -o upper
+
+tokens: tokens.c
+	$(CC) $(CFLAGS) tokens.c -lreadline -o tokens
 
 clean:
 	/bin/rm -rf $(EXECS) *.o *~
