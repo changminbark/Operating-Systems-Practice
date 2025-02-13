@@ -1,7 +1,7 @@
 CC = gcc
 CFLAGS = -std=gnu99 -Wall -Werror -g #-DDEBUG
 
-EXECS = heap-test pipe-test pipes
+EXECS = heap-test pipe-test pipes upper
 
 all: $(EXECS)
 
@@ -13,6 +13,9 @@ pipe-test: pipe-test.c
 
 pipes: pipes.c
 	$(CC) $(CFLAGS) pipes.c -o pipes
+
+upper: upper.c
+	$(CC) $(CFLAGS) upper.c -o upper
 
 clean:
 	/bin/rm -rf $(EXECS) *.o *~
