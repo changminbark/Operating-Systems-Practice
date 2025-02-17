@@ -1,0 +1,25 @@
+Lab 0 -- Feedback
+------------------------------------------------------------
+
+Prelab: 5/5
+    Problem 1 [5/5]
+        [5 points total] for completing lab0.txt
+
+    Problem 2 and 3 are graded on Google Classroom.
+
+
+Lab: 70/70
+    Problem 1 [40/40]
+        [40 points] for a Makefile that compiles dnode.o, dlist.o, and dlisttest.c.
+        [30 points] for a Makefile that compiles only two of the three files.
+        [20 points] for a Makefile that compiles only one of the three files.
+        [10 points] for the attempt to create a Makefile.
+
+
+    Problem 2 [30/30]
+        [10 points] for the correct implementation of dlist_add_front; [4 points] for an incorrect implementation.
+        [10 points] for the correct implementation of dlist_add_back; [4 points] for an incorrect implementation.
+        [10 points] for the correct implementation of dlist_remove_front; [4 points] for an incorrect implementation.
+
+Grade: 75/75
+Comment: Good work!
