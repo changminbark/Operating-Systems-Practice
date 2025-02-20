@@ -11,5 +11,8 @@ char-threads: char-threads.c
 mytime: mytime.c
 	$(CC) $(CFLAGS) mytime.c -o mytime
 
+summation: summation.c 
+	$(CC) $(CFLAGS) summation.c -o summation -lm -lpthread
+
 clean:
 	/bin/rm -rf $(EXECS) *.o *~
