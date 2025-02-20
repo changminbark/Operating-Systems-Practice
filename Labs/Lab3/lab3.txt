@@ -8,3 +8,31 @@ We need to link it using the math library (-lm).
 
 1.3:
 No undefined references because using cc and gnu99.
+
+2.1:
+The main thread passes arguments to the other threads by creating thread_arg structures
+for each thread that it passes to the thread function.
+
+2.2:
+This ensures that the variable structs that are created here are initiaized to 0 values
+instead of some random garbage value. This helps ensure predictable and easy to work with.
+
+2.3:
+A detached thread is one that runs independently and cannot be joined by another thread.
+The code ensures that the attributes of the threads that are created are joinable, which
+makes sense as we need the main thread to wait for each thread to finish and collect their
+results. If they were detached, we would not be able to use these values.
+
+2.4:
+Each thread computes the partial sum and stores it in the result field of the thread_args struct.
+The main thread calls pthread_join() with the &tstatus thread_args, which stores the pointer to the original
+targs struct, which we can use to access each thread's result.
+
+2.5:
+If a child thread calls exit(3), the entire process (including other threads) will terminate.
+
+2.6: 
+If a child thread calls execl(3) to execute /bin/ls, that thread will replace its memory space
+with a new process image, terminating its execution. Since these are threads, we are replacing the
+text portion of the process, which is shared by all threads, effectively terminating the process.
+

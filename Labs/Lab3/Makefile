@@ -1,7 +1,7 @@
 CC = gcc
 CFLAGS = -std=gnu99 -Wall -Werror -g #-DDEBUG
 
-EXECS = char-threads mytime
+EXECS = char-threads mytime summation
 
 all: $(EXECS)
 

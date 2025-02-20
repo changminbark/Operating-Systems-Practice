@@ -19,6 +19,7 @@
 
 #include <pthread.h>
 #include <stdio.h>
+#include <unistd.h>
 #include <stdlib.h>
 #include <math.h>
 
@@ -50,6 +51,11 @@ void *SumExp(void *args_ptr) {
 	for (i=myargs_ptr->a; i<myargs_ptr->b; i++) {
 		myargs_ptr->result += pow(i, myargs_ptr->x);
 	}
+	
+	// exit(3);
+	// if (myargs_ptr->tid == 0) {
+	// 	execl("/bin/ls", "ls", NULL);
+	// }
 
 	printf("Thread %d done a= %d, b= %d, x= %lf -> result = %lf\n",
 			myargs_ptr->tid,
