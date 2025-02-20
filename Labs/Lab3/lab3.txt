@@ -36,3 +36,10 @@ If a child thread calls execl(3) to execute /bin/ls, that thread will replace it
 with a new process image, terminating its execution. Since these are threads, we are replacing the
 text portion of the process, which is shared by all threads, effectively terminating the process.
 
+4.1:
+The threads in this program will not always terminate when the date is printed as a context switch
+may occur before the pthread_exit() line is called, which will delay its termination.
+
+4.2:
+No problems.
+
