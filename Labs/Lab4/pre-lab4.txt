@@ -1,0 +1,29 @@
+Problem 1:
+The socket() system call creates an endpoint for communication and returns 
+a file descriptor that can be used in network-related system calls. It is similar
+to pipe() and open() in the sense that it returns a file descriptor, allowing them to
+be used with standard I/O system calls like read(), write(), and close().
+They also all can be used for IPC and feature blocking/non-blocking modes.
+
+In terms of differences, they all have different purposes and have different scopes of communication;
+sockets can allow communication between different machines, pipes only allow between related processes, and files 
+only allow access for files. Sockets also exist as long as the process keeps it open and requires binding.
+
+Problem 2:
+1) The client uses gethostbyname() to resolve the server's hostname and sets up a sockaddr-in with the server's IP
+and port. The server binds to a specified port using bind(), listens for connections, and accepts requests.
+
+2) The purpose of bind() isto associate the server's socket (sd) with an IP address and port, ensuring it
+listens for incoming connections on that address.
+
+3) The purpose of connect() is to establish a connection from the client to the server using the provided IP and port.
+
+4) The purpose of listen() is to convert the server's socket into a passive listening socket, allowing it to queue
+incoming connectoin requests.
+
+5) The purpose of accept() is to extract a connection request from the queue, creating a new socket (sd2) for communication
+with the specific client.
+
+6) The system calls to send messages will be either send(sd, message, len 0) or write(sd, message, len).
+The system calls to receive messages will be either recv(sd, buffer, len, 0) or read(sd, buffer, len).
+
