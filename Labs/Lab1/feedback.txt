@@ -1,0 +1,55 @@
+------------------------------------------------------------
+Lab 1 -- Feedback
+------------------------------------------------------------
+
+Prelab: 30/30
+	Problem 1 [10/10]
+		[4 points] Program reads in four command line arguments of types char, int, float, and string.
+		[2 points] Program terminates with an error message if fewer than four or more than four command line arguments are provided.
+		[4 points] Program prints to the terminal all the four command line arguments provided.
+
+	Problem 2 [10/10]
+		[2 points] Program reads in one command line argument of type string.
+		[2 points] Program terminates if fewer than one or more than one command line argument is provided.
+		[6 points] Program prints to the terminal the correct reversal of the string provided as command line argument.
+		[3 points, partial credit] Program prints to the terminal characters that were not part of the original string.
+
+	Problem 3 [10/10]
+		[5 points] Program creates two children process with the same parent.
+		[3 points] Each of the three processes (parent, first child, and second child) runs on an infinite loop that prints their identification and an integer value to the terminal.
+		[2 points] Each of the three processes (parent, first child, and second child) maintains its own integer counter independently of the other processes.
+
+Lab: 70/70
+	Problem 0 [5/5]
+		Submitted a Makefile that builds all the programs created or modified for the prelab and lab.
+
+	Problem 1 [20/20]
+		[5 points] Added to fork.c code to have both child and parent print out the value of the pid returned by the fork system call.
+				   fork.c must compile and execute correctly, otherwise scores only 2 points.
+		[5 points] Submitted file answers.txt explains whether there is one instance of variable num for the two processes
+				   or if there is an instance in the memory space of the parent process and another instance in the memory of the child process.
+		[7 points] Submitted file fork-wait.c demonstrates the use of wait or waitpid by making the parent process wait for the child to terminate before itself can terminate.
+		[3 points] Submitted file fork-wait.c has the child process making calls to getpid and getppid to obtain and print its pid and its parent’s pid.
+
+	Problem 2 [25/25]
+		[4 points] Submitted file answers.txt explains which segment (text, data, heap, or stack) contains the variables pid, x, y, i, and j declared in file fork-data.c.
+		[5 points] Submitted file answers.txt explains whether the data segment and the stack segment of the parent process are copied over to the child process (2 points)
+				   and whether changes the child makes to its variables can be seen by the parent process (3 points).
+		[6 points] Submitted file fork-file.c used the file descriptor Linux API to create a file called data.txt and to write into it the given string.
+		[6 points] Submitted file answers.txt explains if a file closed by one of the processes can be read by the other (3 points)
+				   and if the child reading from the file affects the reads the parent makes to the same file (3 points).
+		[4 points] Submitted file fork-file.c contains wrapper Fork() that calls fork(), checks if the returned value was -1 calling perror to print a message to the terminal
+				   indicating the error that happened and later aborting the program with return code -1.
+
+	Problem 3 [20/20]
+		[10 points] In submitted file catcount.c, the child process successfully calls execlp to run /bin/cat with the argument received from the command line (4 points);
+					the parent process calls wait to block until the child’s terminates passing a return code to indicate its termination status (2 points);
+					if the first child terminates without error, the parent spawns another child and waits for its termination (2 points);
+					the new child calls execlp to run /usr/bin/wc on the file name the parent received its command line (2 points).
+		[10 points] Submitted file catcount.c implements function print_environment that compiles without warnings (5 points);
+					the execution of that function produces output similar to that of program env(1) (5 points).
+
+
+Grade: 100/100
+Comment: Good work!
+
