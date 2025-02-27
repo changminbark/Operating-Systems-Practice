@@ -1,0 +1,21 @@
+1. We claim that TCP sockets are a mechanism for interprocess communication because they allow for communications between processes (programs)
+on arbitrary machines over a network. This could also be between processes on the same local machine. That is why we say that TCP sockets are a mechanism for
+interprocess communication.
+
+2. Socket functionality is kernel-based for several reasons.
+From the linux perspective, it is implemented with system calls, which means that it runs in the kernel space. It handles all of the low-level network operations,
+such as packet routing, protocol handling, buffer management, and connection state tracking. This is part of the kernel's networking stack.
+
+From the OS design perspective, making sockets kernel-based allow for faster performance (does not need to deal with user-space network management as it directly 
+interacts with network interfaces), better security (ensures proper access control over network resources and process isolation to prevent other processes from accessing
+another process's network traffic), and concurrency/scheduling (kernel can efficiently handle multiple network connections with scheduling).
+
+3. We should use pipes when the processes are on the same machine, communication is simple and unidirectional, and low overhead is needed (no networking).
+We should use sockets when the processes are on different machines, communication is over a network (requires protocol), multiple clients connect to a server, and flexibility is needed.
+
+4. gethostbyname(3) is a deprecated/legacy library call that translates human-readable hostname (like localhost) into an IP address. It takes in a (char *) that is the
+string version of the hostname, queries the system's DNS resolver, and returns a (struct hostent *) that contains the IP address, address family (IPv4), and host aliases.
+
+5. A better alternative is to use getaddrinfo(3), which supports both IPv4 and IPv6. It is also thread-safe and more flexible (can return multiple IP addresses). To use it,
+we need to declare (struct addrinfo hints, *res) that we pass as parameters. We also pass a hostname (char * node) and a service (char * service) like "http" or "80" (port) or NULL, if only resolving IP.
+

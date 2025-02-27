@@ -52,16 +52,12 @@
 int
 main(int argc, char* argv[]) {
 
-	struct	hostent	 *ptrh;	 // pointer to a host table entry	
-	struct	sockaddr_in sad; // structure to hold an IP address	
+	struct	addrinfo hints, *res, *p;		
 
 	int	sd;		                 // socket descriptor			
-	int	port;		               // protocol port number		
+	char *port;		               // protocol port number		
 	char *host;                // pointer to host name		
 	char  in_msg[BUFFER_SIZE]; // buffer for incoming message
-
-	memset((char *)&sad,0,sizeof(sad)); // zero out sockaddr structure	
-	sad.sin_family = AF_INET;	          // set family to Internet	
 
 	// verify usage
 
@@ -71,41 +67,37 @@ main(int argc, char* argv[]) {
 	}
 
 	host = argv[1];		
-	port = atoi(argv[2]);	
+	port = argv[2];	
 
-	if (port > 0)	
-		// test for legal value		
-		sad.sin_port = htons((u_short)port);
-	else {				
+	if (port <= 0) {				
 		// print error message and exit	
 		printf("ECHOREQ: bad port number %s\n", argv[2]);
 		exit(-1);
 	}
 
-	// convert host name to equivalent IP address and copy to sad 
+	// Set hints to specifications
+	memset(&hints, 0, sizeof(hints));
+	hints.ai_family = AF_UNSPEC; // both ipv4 and ipv6
+	hints.ai_socktype = SOCK_STREAM;
 
-	// A MUCH BETTER WAY WOULD TO USE getaddrinfo() with struct addrinfo *hints, **res (NEWER)
-	ptrh = gethostbyname(host);
-
-	if ( ((char *)ptrh) == NULL ) {
-		printf("ECHOREQ: invalid host: %s\n", host);
+	if (getaddrinfo(host, port, &hints, &res) != 0) {
+		perror("Could not get address info\n");
 		exit(-1);
 	}
 
-	memcpy(&sad.sin_addr, ptrh->h_addr, ptrh->h_length);
-
-	// create socket 
-
-	sd = socket(PF_INET, SOCK_STREAM, IPPROTO_TCP);
-	if (sd < 0) {
-		printf("ECHOREQ: socket creation failed\n");
-		exit(-1);
+	// Loop through all possible search results
+	for (p = res; p != NULL; p = p->ai_next) {
+		// create socket 
+		sd = socket(p->ai_family, p->ai_socktype, p->ai_protocol);
+		// connect the socket to the specified server 
+		if (connect(sd, p->ai_addr, p->ai_addrlen) == 0) {
+			break;
+		}
 	}
 
-	// connect the socket to the specified server 
-
-	if (connect(sd, (struct sockaddr *)&sad, sizeof(sad)) < 0) {
-		perror("ECHOREQ: connect failed");
+	if (p == NULL) { // No valid connection
+		fprintf(stderr, "ECHOREQ: Could not connect to server\n");
+		freeaddrinfo(res);
 		exit(-1);
 	}
 

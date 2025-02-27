@@ -28,6 +28,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include "wrappers.h"
 
 #define BUFFER_SIZE 512 // length of message buffer    
 #define	QLEN 6   // length of request queue
@@ -55,6 +56,24 @@ int	num_requests = 0;  // tally of client requests
  *------------------------------------------------------------------------
  */
 
+ void process_string(char *input, char *output) {
+    char *token;
+    output[0] = '\0';
+
+    token = strtok(input, " "); // tokenize and delimit by space
+    // Scan tokens until reach end of string
+    while (token != NULL) {
+        strcat(output, token);
+        strcat(output, " ");
+        token = strtok(NULL, " "); // retrieve next word in string
+    } 
+
+    // Remove last manually added space
+    if (strlen(output) > 0) {
+        output[strlen(output) - 1] = '\0';
+    }
+}
+
 int 
 main (int argc, char* argv[]) {
 
@@ -64,6 +83,7 @@ main (int argc, char* argv[]) {
 	int port;		             // protocol port number		
 	socklen_t alen;	         // length of address			
 	char in_msg[BUFFER_SIZE];  // buffer for incoming message
+	char out_msg[BUFFER_SIZE];
 
 	// prepare address data structure
 
@@ -129,8 +149,13 @@ main (int argc, char* argv[]) {
 		num_requests++;
 
 		// receive the string sent by client
+		Recv(sd2, in_msg, sizeof(in_msg), 0);
+
+		// Process string
+		process_string(in_msg, out_msg);
 
 		// send the received string back to client
+		Send(sd2, out_msg, sizeof(out_msg), 0);
 
 		close(sd2);
 }
