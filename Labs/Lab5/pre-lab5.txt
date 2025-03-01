@@ -1,0 +1,24 @@
+1. A mutex (mutual exclusion lock) is used to protect critical sections by allowing only one thread at a time to access
+a shared resource. It is strictly binary (either locked or unlocked) and only the thread that locked it should unlock it.
+A semaphore, on the other hand, maintains a count (which can be greater than one) and is used to manage access to a resource
+pool or to signal events among threads. Unlike a mutex, semaphores can allow multiple threads to enter a critical section simultaneously,
+depending on the semaphore's count.
+
+2. 
+pthread_mutex_init: Initializes a mutex so that it can be used by subsequent calls to lock and unlock. It takes a pointer to a mutex variable
+and an optional attributes argument (or NULL for default settings), setting up internal state and any specified behavior.
+
+pthread_mutex_lock: Attempts to lock the specified mutex. If the mutex is already locked by another thread, this call will block the 
+calling thread until the mutex becomes available. It ensures that only one thread enters the protected critical section at any time.
+
+pthread_mutex_unlock: Releases the mutex that was previously locked by the calling thread. This allows other threads waiting on the mutex
+to proceed. Only the thread that holds the lock should call this function.
+
+sem_init: Initializes an unnamed semaphore, setting its initial value and specifying whether it will be shared between threads (0) or processes (nonzero).
+This function prepares the semaphore for use in synchronization.
+
+sem_wait: Decrements the semaphore's count, effectively "waiting" for a resource to become available. If the semaphore's count is zero, indicating that no resources are
+available, the calling thread will block until the count is greater than zero.
+
+sem_post: Increments the semaphore's count, signaling that a resource has become available. If other threads are blocked waiting in a sem_wait call, one of them may
+be unblocked to proceed.
