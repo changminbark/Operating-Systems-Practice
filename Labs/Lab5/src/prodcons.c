@@ -59,7 +59,7 @@ void *producer (void *param) {
   unsigned int seed = (unsigned int)*(int *)param;
 
   // TODO: CHANGE THIS TO FINITE/INFINITE
-  for (int k = 0; k < 100; k++) {
+  for ( ; ; ) {
 	/* The following solution to compute the amount of time to sleep
 	 * is incorrect. You MUST fix it. See the "SCALE_FACTOR ..." comment
 	 * section above.
@@ -91,7 +91,7 @@ void *consumer (void *param) {
   unsigned int seed = (unsigned int)*(int *)param;
 
   // TODO: CHANGE THIS TO FINITE/INFINITE
-  for (int k = 0; k < 100; k++) {
+  for ( ; ; ) {
     // sleep for random period of time
     int sleep = MIN_SLEEP + (int)((MAX_SLEEP - MIN_SLEEP) * ((double)rand_r(&seed) / RAND_MAX));
     // sleep for random period of time
