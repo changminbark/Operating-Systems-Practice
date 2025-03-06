@@ -18,9 +18,19 @@
  */
 
  #include <stdlib.h>
+
  #include "circular_list.h"
- 
+
+
+ // The reason we make the sync primitives a member of the struct is because in case we make multiple circular lists
  int circular_list_create(struct circular_list *l, int size) {
+    // Create mutex (second param is attr)
+    pthread_mutex_init(&l->mutex, NULL);
+    // Create semaphore for empty and full
+    // Empty will be initialized to size (number of slots in c_list)
+    sem_init(&l->empty, 0, size);
+    // Full will be initialized to 0 (and go up to size as it will only increment when empty is decremented)
+    sem_init(&l->full, 0, 0);
      l->buffer = calloc(size, sizeof(item));
      l->start = -1;
      l->end = -1;
@@ -29,11 +39,18 @@
      return 0;
  }
  
+ // Called by producer
  int circular_list_insert(struct circular_list *l, item i) {
-     if (l->elems == l->size) {
-         // List is full
-         return -1;
-     }
+    // CR starts here
+    sem_wait(&l->empty); // decrease empty sem by 1
+    pthread_mutex_lock(&l->mutex); // acquire mutex lock 
+
+    // No need for this as the semaphore already takes care of this situation
+    //  if (l->elems == l->size) {
+    //      // List is full
+    //      return -1;
+    //  }
+
      // List is empty (initialize end to 0)
      if (l->elems == 0) {
          l->start = 0;
@@ -44,14 +61,27 @@
      }
      l->buffer[l->end] = i;
      l->elems++;
+
+     pthread_mutex_unlock(&l->mutex); // release mutex lock
+     sem_post(&l->full); // increase full sem by 1
+     // CR ends here
+
      return 0;
  }
  
+ // Called by consumer
  int circular_list_remove(struct circular_list *l, item *i) {
-     if (l->elems == 0) {
-         // List is empty
-         return -1;
-     }
+    // CR starts here 
+    sem_wait(&l->full); // decrease full sem by 1
+    pthread_mutex_lock(&l->mutex); // acquire mutex lock 
+
+    // No need for this as the semaphore already takes care of this situation
+    //  if (l->elems == 0) {
+    //      // List is empty
+    //      return -1;
+    //  }
+
+     // Save item at start pointer to i
      *i = l->buffer[l->start];
      if (l->elems == 1) {
          // List will be empty after removal.
@@ -61,7 +91,25 @@
         // Move start by 1
          l->start = (l->start + 1) % l->size;
      }
+     // Technically element is still in array, but we cannot access it using start/end
      l->elems--;
+
+     pthread_mutex_unlock(&l->mutex); // release mutex lock
+     sem_post(&l->empty); // increase empty sem by 1
+     // CR ends here
+
      return 0;
+ }
+
+ int circular_list_destroy(struct circular_list *l) {
+    // Destroy sync primitives
+    pthread_mutex_destroy(&l->mutex);
+    sem_destroy(&l->empty);
+    sem_destroy(&l->full);
+
+    // Free up calloc
+    free(l->buffer);
+
+    return 0;
  }
  

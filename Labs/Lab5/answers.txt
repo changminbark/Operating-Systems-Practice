@@ -1,0 +1,3 @@
+rand_r() is thread safe while rand() is not thread safe because rand_r() does not use a global seed inside the standard C library.
+Instead, it takes a pointer to a local seed variable (unsigned int *seed) that each thread works with independently. This helps prevent
+race conditions where threads could potentially mess with other thread's random number sequence by modifying the global seed.

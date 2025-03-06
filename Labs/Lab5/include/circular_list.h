@@ -20,6 +20,9 @@
 #ifndef _CIRCULAR_LIST_H_
 #define _CIRCULAR_LIST_H_
 
+#include <pthread.h>
+#include <semaphore.h>
+
 typedef double item;
 
 /** Circular list ADT. This circular list is implemented as a
@@ -31,6 +34,9 @@ struct circular_list {
   int elems; /// number of elements currently held in buffer
   int size; /// capacity of the buffer 
   item *buffer; /// array of buffer items
+  pthread_mutex_t mutex;
+  sem_t empty;
+  sem_t full;
 }; 
 
 /**
@@ -56,5 +62,7 @@ int circular_list_insert(struct circular_list *l, item i);
  * @return 0 if successful, -1 if any error condition is found
  */
 int circular_list_remove(struct circular_list *l, item *i);
+
+int circular_list_destroy(struct circular_list *l);
 
 #endif  /* _CIRCULAR_LIST_H_ */
