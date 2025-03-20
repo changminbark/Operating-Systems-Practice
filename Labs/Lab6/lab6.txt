@@ -1,0 +1,9 @@
+1.1
+The program stops at some point. It reaches a deadlock and cannot print to stdout anymore.
+
+1.2
+The deadlock is happening because of the symmetric chopstick/mutex lock behavior of all the pthreads. Since the pthreads are picking up
+the lock in the same order (left and then right), there could be a scenario where every philosopher picks up the left chopstick sequentially
+without being able to pick up the right chopstick. This will lead to a circular dependency where each philosopher is waiting for the person
+on the right to let go of their chopstick.
+
