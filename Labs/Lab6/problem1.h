@@ -8,8 +8,6 @@ typedef struct {
     int id;
 } thread_param;
 
-void napping(int t, unsigned int seed);
-
 void *philosopher(void *param);
 
 #endif
