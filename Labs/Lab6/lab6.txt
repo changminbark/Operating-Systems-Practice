@@ -7,3 +7,8 @@ the lock in the same order (left and then right), there could be a scenario wher
 without being able to pick up the right chopstick. This will lead to a circular dependency where each philosopher is waiting for the person
 on the right to let go of their chopstick.
 
+2.2
+Basically, philosopher 2 was waiting to pick up chopstick 3, but that was held by philosopher 4, who was waiting for chopstick 0.
+But chopstick 0 was held by philosopher 1, who was waiting for chopstick 2, which was held by philosopher 3 waiting for chopstick 4. 
+Philosopher 0 was holding chopstick 4 and waiting for chopstick 1, which was held by philosopher 2. Basically it's a circular dependency
+of everyone picking up the left chopstick at the same time.

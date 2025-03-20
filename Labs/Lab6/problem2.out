@@ -1,0 +1,31 @@
+Philosopher 0 is thinking.
+Philosopher 0 is hungry.
+Philosopher 2 is thinking.
+Philosopher 2 is hungry.
+Philosopher 2 is picking up chopstick 1
+Philosopher 0 is picking up chopstick 4
+Philosopher 3 is thinking.
+Philosopher 3 is hungry.
+Philosopher 4 is thinking.
+Philosopher 3 is picking up chopstick 2
+Philosopher 4 is hungry.
+Philosopher 2 is picking up chopstick 3
+Philosopher 2 is starting to eat.
+Philosopher 2 is done eating.
+Philosopher 2 is putting down chopstick 1
+Philosopher 2 is putting down chopstick 3
+Philosopher 4 is picking up chopstick 3
+Philosopher 0 is picking up chopstick 1
+Philosopher 0 is starting to eat.
+Philosopher 1 is thinking.
+Philosopher 1 is hungry.
+Philosopher 1 is picking up chopstick 0
+Philosopher 2 is thinking.
+Philosopher 2 is hungry.
+Philosopher 0 is done eating.
+Philosopher 0 is putting down chopstick 4
+Philosopher 0 is putting down chopstick 1
+Philosopher 0 is thinking.
+Philosopher 0 is hungry.
+Philosopher 0 is picking up chopstick 4
+Philosopher 2 is picking up chopstick 1

@@ -1,10 +1,29 @@
-#include "problem1.h"
+#include "problem2.h"
 
 #include <stdlib.h>
 #include <pthread.h>
 #include <stdio.h>
+#include <time.h>
 
 #define NUM_PHIL 5
+#define MIN_SLEEP 0
+
+void napping(int t, unsigned int seed) {
+    // Calculate random sleep time in between MIN_SLEEP and t
+    int sleep = MIN_SLEEP + (int)((t - MIN_SLEEP) * ((double)rand_r(&seed) / RAND_MAX));
+
+    // Create timespec structs to use in nanosleep (required)
+    struct timespec req;
+
+    // Set the seconds and nanoseconds for required sleep
+    req.tv_sec = (time_t)sleep;
+    req.tv_nsec = (time_t)0;
+
+    // Sleep
+    nanosleep(&req, NULL);
+
+    return;
+}
 
 void *philosopher(void *params) {
     thread_param *data = (thread_param *)params;
@@ -21,7 +40,15 @@ void *philosopher(void *params) {
         fflush(stdout);
 
         pthread_mutex_lock(&mutexes[left]);
+        printf("Philosopher %d is picking up chopstick %d\n", id, left);
+        fflush(stdout);
+
+        napping(2, id); // TO PROMOTE DEADLOCK
+
         pthread_mutex_lock(&mutexes[right]);
+        printf("Philosopher %d is picking up chopstick %d\n", id, right);
+        fflush(stdout);
+
         // START OF CR
         printf("Philosopher %d is starting to eat.\n", id);
         fflush(stdout);
@@ -29,8 +56,14 @@ void *philosopher(void *params) {
         printf("Philosopher %d is done eating.\n", id);
         fflush(stdout);
         // END OF CR
+
         pthread_mutex_unlock(&mutexes[left]);
+        printf("Philosopher %d is putting down chopstick %d\n", id, left);
+        fflush(stdout);
+
         pthread_mutex_unlock(&mutexes[right]);
+        printf("Philosopher %d is putting down chopstick %d\n", id, right);
+        fflush(stdout);
     }
     
     return NULL;

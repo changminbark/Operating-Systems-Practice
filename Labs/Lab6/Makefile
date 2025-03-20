@@ -1,7 +1,7 @@
 CC=gcc
 CFLAGS=-std=gnu99 -Wall -Werror -Wextra -g -pedantic
 
-EXECS = dp problem1
+EXECS = dp problem1 problem2
 
 all: $(EXECS)
 
@@ -17,6 +17,12 @@ problem1: problem1.o
 
 problem1.o: problem1.c problem1.h
 	$(CC) $(CFLAGS) -c problem1.c -o problem1.o
+
+problem2: problem2.o
+	$(CC) $(CFLAGS) problem2.o -o problem2
+
+problem2.o: problem2.c problem2.h
+	$(CC) $(CFLAGS) -c problem2.c -o problem2.o
 
 .PHONY: clean
 
