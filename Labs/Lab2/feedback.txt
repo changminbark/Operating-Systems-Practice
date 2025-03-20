@@ -1,0 +1,45 @@
+------------------------------------------------------------
+Lab 2 -- Feedback
+------------------------------------------------------------
+
+Prelab: 30/30
+	Problem 1 [15/15]
+    	[2 points] Submitted program heap-test.c.
+    	[3 points] Program compiles without warnings or errors.
+    	[5 points] Program allocates something on the heap and spawns a child process.
+	    [5 points] Program prints to the terminal the contents of the dynamically allocated memory in the parent and in the child process.
+
+	Problem 2 [15/15]
+    	[6 points] Submitted program pipe-test.c with the contents of figure “Ordinary Pipe in UNIX” from SGG, which compiles
+        	       without warnings or errors and executes without crashing.
+    	[3 points] Submitted file answers-prelab.txt describes what can be observed in the experiment in Problem 1
+    	           (sharing of heap data between parent and child processes).
+	  	[3 points] Submitted file answers-prelab.txt explains how parent and child processes can have access to the pipe file descriptor created by the parent.
+    	[3 points] Submitted file answers-prelab.txt explains how similar (or dissimilar) is the API that Unix provides for working with files and pipes.
+
+If no working Makefile is provided, subtract [10 points] from the total grade of the prelab.
+
+Lab: 70/70
+    Problem 1 [30/30]
+		[30 points] Using the Fork wrapper example in Lab 1, write three additional ones, pipe(), read(), and write(), 10 points for each of the functions.
+					You must implement the correct functionality for sending and receiving messages byte-by-byte over the pipe using these wrapper functions.
+
+	Problem 2 [20/20]
+		[10 points] Using the wrappers defined previously, set up the pipes between the child and parent properly so the communication between
+					the parent and the child is bi-directional.
+		[5 points] The parent writes a string of arbitrary length to the child one byte at a time, then enters a loop, reading what the child sends back.
+				   Note that the parent must send the child a NULL character (‘\0’) to end the string.
+		[5 points] The child process, receiving the string of unknown length ending with a ‘\0’, converts everything into upper case using the C toupper(3)
+				   function, returns the string back to the parent through the pipe.
+
+	Probem 3 [20/20]
+		[10 points] Implement the sending/receiving protocol properly, that is, always send an integer representing the number of incoming bytes first,
+					followed by the actual string of that length. The receiver will expect an integer first, followed by a string of
+					the length specified by the integer.
+		[10 points] Properly tokenize on the child’s side, removing extra blank spaces, then send the processed string back to the parent.
+					Note: the following was added after the original posting. Use functions strtok() and strcat() properly, 3 points will be taken
+						  off if one of these functions is not used. 6 points off for neither.
+
+Grade: 100/100
+Comment: Good work!
+
