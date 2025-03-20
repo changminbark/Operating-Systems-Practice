@@ -12,3 +12,6 @@ Basically, philosopher 2 was waiting to pick up chopstick 3, but that was held b
 But chopstick 0 was held by philosopher 1, who was waiting for chopstick 2, which was held by philosopher 3 waiting for chopstick 4. 
 Philosopher 0 was holding chopstick 4 and waiting for chopstick 1, which was held by philosopher 2. Basically it's a circular dependency
 of everyone picking up the left chopstick at the same time.
+
+3.1
+Yes, it seems that the deadlock conditions are avoided using these methods. However, this could lead to a different problem of starvation.
