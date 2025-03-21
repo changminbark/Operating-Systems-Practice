@@ -1,0 +1,19 @@
+Problem 1:
+1. Every time memory is allocated (via process creation or malloc), it will insert into the back
+of the allocated memory doubly linked list and update the free list nodes. When memory is deallocated, it will remove the node in the allocated
+memory list and add it to free list. A doubly linked list is useful here to show the separate portions of the contiguous memory 
+that was allocated/deallocated. It efficiently stores the information of the different parts.
+
+2. Binary search trees could work by storing memory metadata according to the size of the memory, alowing for faster insertion, removal, and search.
+
+3. External fragmentation happens when free memory is split into non-contiguous blocks, which may have gaps in between. This makes it impossible 
+to allocate large contiguous memory even though there is enough total free memory.
+
+4. Internal fragmentation happens when the allocated memory exceeds the actual requested size, wasting space within the allocated blocks. This could
+also happen if a computer can only allocate blocks of specific sizes for alignment and block size constraints.
+
+5. First-fit searches the free list from the beginning and allocates the first blcok that is large enough.
+
+6. Best-fit searches the entire free list and allocates the smallest block that is large enough to satisfy the request.
+
+7. Worst-fit allocates memory from the largest available block, aiming to leave sizable remaining chunks.
