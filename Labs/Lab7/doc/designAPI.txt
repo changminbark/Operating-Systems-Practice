@@ -1,0 +1,72 @@
+int allocator_init(size_t size);
+This function initializes the memory allocator. It creates two lists:
+
+    allocated_list: Keeps track of allocated memory blocks.
+
+    free_list: Starts with a single memory block representing all available memory.
+
+It also allocates a block of memory from the OS and adds it to free_list.
+Returns 0 on success, -1 on failure (e.g., if memory allocation fails).
+
+
+void *find_first_fit(struct dlist *l, size_t size);
+Finds the first available memory block in l that is large enough to fit size.
+
+    Starts from the beginning of the list and returns the first block that is big enough.
+
+    Returns NULL if no suitable block is found.
+
+
+void *find_best_fit(struct dlist *l, size_t size);
+Finds the smallest available memory block in l that is still large enough to fit size.
+
+    Scans through the list and picks the block that minimizes wasted space.
+
+    Returns NULL if no suitable block is found.
+
+
+void *find_worst_fit(struct dlist *l, size_t size);
+Finds the largest available memory block in l that is big enough to fit size.
+
+    Scans through the list and picks the block with the most extra space.
+
+    Returns NULL if no suitable block is found.
+
+
+void add_to_correct_addr_pos(struct dlist *l, struct memory *m);
+Inserts a memory block m into the list l in the correct order based on its memory address.
+
+    Ensures that memory blocks remain sorted in ascending order of addresses.
+
+    Helps maintain proper merging of adjacent free blocks.
+
+
+void *allocate(size_t size, int mode);
+Allocates a block of memory of the given size using a specified allocation policy:
+
+    mode == 0: First fit (finds the first available block).
+
+    mode == 1: Best fit (finds the smallest suitable block).
+
+    mode == 2: Worst fit (finds the largest suitable block).
+
+Steps:
+
+    Finds a suitable block in free_list.
+
+    Removes it from free_list and adds it to allocated_list.
+
+    If the block is larger than needed, the remaining portion is added back to free_list.
+
+    Returns a pointer to the allocated memory, or NULL if no space is available.
+
+
+int deallocate(void *ptr);
+Frees a previously allocated memory block.
+Steps:
+
+    Finds the memory block in allocated_list and removes it.
+
+    Adds the freed block back into free_list in the correct position.
+
+    Returns 0 on success, -1 if the pointer is invalid.

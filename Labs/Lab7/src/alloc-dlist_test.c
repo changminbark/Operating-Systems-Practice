@@ -21,11 +21,13 @@
  #include <stdlib.h>
  #include <string.h>
  
+ #include "dnode.h"
  #include "dlist.h"
  
  int main(int argc, char *argv[]) {
  
    char *mystr;
+   struct memory *mymem;
    struct dlist *mylist = dlist_create();
    
    printf("dlisttest running...\n");
@@ -100,9 +102,11 @@
    traverse_backward(mylist);	
    
    printf("\ntesting remove front\n");
-   mystr = dlist_remove_front(mylist);
+   mymem = dlist_remove_front(mylist);
+   mystr = mymem->data;
    printf("removed string = %s\n", mystr);
    free(mystr);
+   free(mymem);
    printf("list length= %d\n\n", dlist_num_elems(mylist));
    
    printf("\ntesting dlist_print\n");
@@ -113,9 +117,11 @@
    traverse_backward(mylist);	
    
    printf("\ntesting remove back\n");
-   mystr = dlist_remove_back(mylist);
+   mymem = dlist_remove_back(mylist);
+   mystr = mymem->data;
    printf("removed string = %s\n", mystr);
    free(mystr);
+   free(mymem);
    printf("list length= %d\n\n", dlist_num_elems(mylist));
    
    printf("\ntesting dlist_print\n");
@@ -126,9 +132,11 @@
    traverse_backward(mylist);	
    
    printf("\ntesting find_remove\n");
-   mystr = dlist_find_remove(mylist, str3);
+   mymem = dlist_find_remove(mylist, str3);
+   mystr = mymem->data;
    printf("removed string = %s\n", mystr);
    free(mystr);
+   free(mymem);
    printf("contents of the list\n");
    
    printf("\ntesting dlist_print\n");

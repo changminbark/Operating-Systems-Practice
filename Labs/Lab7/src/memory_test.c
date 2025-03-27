@@ -1,13 +1,16 @@
 /*
- * Test some basic memory allocatino functions.
+ * Test some basic memory allocation functions.
  * CSCI 315
  * For lab checks.
  */
 #include <stdio.h>
 #include <stdlib.h>
 #include "allocator.h"
+#include "dlist.h"
 
 #define N 10   // number of trials
+
+extern struct dlist *free_list, *allocated_list;
 
 int main(int argc, char*argv[]) {
 
@@ -23,7 +26,7 @@ int main(int argc, char*argv[]) {
   srand(0);
   for (i = 0; i < N; i ++)  { // try allocation operations
     int block_size = rand() % 20 + 1;
-    memory_block[i] = allocate(block_size);
+    memory_block[i] = allocate(block_size, 0);
     printf("allocate %u bytes...\n", block_size);
     if (memory_block[i] == NULL) {
       printf("alloation failed\n");
@@ -36,7 +39,7 @@ int main(int argc, char*argv[]) {
   for (i = 0; i < N/2; i ++) { // try to free a block that has been allocated
     int which = rand() % N;    // which block to free 
     r = deallocate(memory_block[which]);
-    if (r == 1) {
+    if (r == 0) {
       printf("deallocate 0x%llx successfully\n", (unsigned long long)memory_block[which]);
     } else {
       printf("deallocate 0x%llx unsuccessfully\n", (unsigned long long)memory_block[which]);
