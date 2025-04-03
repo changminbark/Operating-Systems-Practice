@@ -186,5 +186,5 @@ double average_frag(struct dlist *l) {
         return 0.0;
     }
 
-    return (1.0 - ((double)largest_mem / (double)total_mem))
+    return (1.0 - ((double)largest_mem / (double)total_mem));
 }

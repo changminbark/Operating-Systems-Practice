@@ -19,3 +19,38 @@ double average_frag() {
     4. then calculate 1 - (largest free block / total free memory)
 }
 If all free memory is contiguous, the ratio will be 1, making the score 0 (perfect and no fragmentation).
+
+2.1
+The given pseudocode is not appropriate for simulating fragmentation as it deallocates the memory after allocating it. If the implementation
+also merged adjacent free blocks, fragmentation would never happen as memory will never stay allocated at the beginning of each loop iteration.
+PSEUDOCODE:
+
+#define MAX_ALLOCATIONS 1000
+
+//initialize your custom memory allocator to work with a pool of 10240 bytes (10K)
+
+srandom(seed); // initialize PRNG, or Pseudo-Random Number Generator
+
+int r=0;
+
+void* memory_blocks[MAX_ALLOCATIONS];
+int active_count = 0;
+
+while (r < requests) {
+
+  action = random() % 2;
+
+  if (action is even || active_count = 0) {
+    s = a random number between 100 and 1000;
+    p = allocate(algorithm, s)
+    // this will require you to change your allocate function
+    // so that it accepts the algorithm parameter to select an
+    // allocation policy
+  } else {
+    idx = random number between 0 and n - 1
+    deallocate memory that is stored in idx and move last element in memory_blocks to idx
+  }
+  
+
+  deallocate(p);
+}
