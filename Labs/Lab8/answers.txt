@@ -1,0 +1,21 @@
+1.1 
+The implementation is susceptible to external fragmentation as allocated memory that is freed can leave gaps in the memory.
+The free memory is not contiguous but interleaved between allocated blocks.
+
+1.2
+Allocation Time - The time it takes to find a suitable free block and complete the allocation. This will measure the latency
+of the allocation process using the specific policy.
+Use clock() or gettimeofday() in C to record the start and end time of each call to allocate().
+
+Memory Utilization - Ratio of memory actively allocated to total memory obtained from the OS. This will measure how much of the 
+total memory that the allocator uses. A higher ratio indicates less memory waste.
+At any time, sum the sizes of all blocks in allocated_list and divide by the total size from allocator_init(size).
+
+1.3
+double average_frag() {
+    1. create an int
+    2. go through free_list and save the largest free block found (this implementation ignores merging adjacent free blocks)
+    3. while doing this, find total free memory
+    4. then calculate 1 - (largest free block / total free memory)
+}
+If all free memory is contiguous, the ratio will be 1, making the score 0 (perfect and no fragmentation).
