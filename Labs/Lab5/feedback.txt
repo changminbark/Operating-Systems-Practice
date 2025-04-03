@@ -1,0 +1,36 @@
+------------------------------------------------------------
+Lab 5 -- Feedback
+------------------------------------------------------------
+
+Prelab: 30/30
+    Problem 1 [20/20]
+        [5 points] Created the header file circular-list.h properly;
+        [10 points] Implemented the functions defined in circular-list.h in the file circular-list.c properly so that the program adt-test works correctly;
+        [5 points] Updated the Makefile properly.
+
+    Problem 2 [10/10]
+        [2 points] Describe succinctly the difference between mutex and semaphore;
+        [4 points] Describe each of the library calls pthread_mutex_init, pthread_mutex_lock, pthread_mutex_unlock, sem_init 1 point each;
+        [4 points] Describe the library calls sem_wait, sem_post 2 points each.
+
+Lab: 70/70
+    Problem 1 [10/10]
+        [10 points] Correctly restructure the call to rand_r so the random numbers can be correctly used in the usleep() call.
+
+    Problem 2 [10/10]
+        [10 points] Explain why rand_r is thread-safe.
+
+    Problem 3 [30/30]
+        [10 points] Put and initialize synchronization calls properly in the function circular_list_create();
+        [10 points] Put and use synchronization calls properly in the function circular_list_insert();
+        [10 points] Put and use synchronization calls properly in the function circular_list_remove().
+
+    Problem 4 [20/20]
+        [3 points] Read and use commend line arguments correctly;
+        [5 points] Define, initialize, and pass the parameters for the threads correctly;
+        [12 points] Create the consumer and producer threads based on the commend line arguments correctly so that the program works correctly.
+
+
+Grade: 100/100
+Comment: Good work!
+
