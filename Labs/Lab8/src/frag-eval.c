@@ -72,7 +72,7 @@ int main(int argc, char*argv[]) {
     if (action == 0 || active_count == 0) {
       int block_size = 100 + (rand() % 10000);
       void *p = allocate(block_size, algorithm);
-      printf("allocate %u bytes...\n", block_size);
+      // printf("allocate %u bytes...\n", block_size);
       if (p != NULL && active_count < MAX_ALLOCATIONS) {
         memory_block[active_count] = p;
         active_count++;
@@ -85,7 +85,7 @@ int main(int argc, char*argv[]) {
       if (r == 0) {
         memory_block[idx] = memory_block[active_count - 1];
         active_count--;
-        printf("deallocate 0x%llx successfully\n", (unsigned long long)memory_block[idx]);
+        // printf("deallocate 0x%llx successfully\n", (unsigned long long)memory_block[idx]);
       } else {
         printf("deallocate 0x%llx unsuccessfully\n", (unsigned long long)memory_block[idx]);
       }
