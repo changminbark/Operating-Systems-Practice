@@ -1,0 +1,40 @@
+------------------------------------------------------------
+Lab 4 -- Feedback
+------------------------------------------------------------
+
+Prelab: 30/30
+    Problem 1 [5/5]
+        [5 points] Explain the similarities and differences between pipe(2) and open(2) in a clear language. Write your answers in pre-lab4.txt
+
+    Problem 2 [25/25]
+        Answer the questions clearly in pre-lab4.txt.
+        [4 points] The TCP question;
+        [4 points] The bind(2) question;
+        [4 points] The connect(2) question;
+        [4 points] The listen(2) question;
+        [4 points] The accept(2) question.
+        [5 points] Explain how you’d send and receive messages by reading echod.c and echo.c.
+
+
+Lab: 70/70
+    Problem 1 [10/10]
+        [6 points] Implement wrappers correctly for the “new” system calls, connect, bind, listen, and accept;
+        [4 points] Implement wrappers correctly for old functions.
+
+    Problem 2 [25/25]
+        [5 points] Use the wrapper functions you implemented in echoreq.c and echod.c;
+        [15 points] Implement the communications between echoreq and echod correctly;
+        [5 points] Correctly remove extra blank spaces in the message.
+
+    Problem 3 [20/20]
+        4 points for each of the answers in lab4.txt.
+
+    Problem 4 [15/15]
+        [10 points] Use the correct name resolution function other than gethostbyname();
+        [5 points] Correctly implement echoreq2.c using the above found name resolution function.
+
+    Note: [up to -10 points] An incorrect or incomplete Makefile to build all programs in the lab assignment.
+
+Grade: 100/100
+Comment: Good work!
+
