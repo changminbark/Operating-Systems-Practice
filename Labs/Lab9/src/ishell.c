@@ -15,10 +15,10 @@ int main()
     // Infinite while loop
     while(1) 
     {
-        // Set up initial data structures for string
-        char *cmd_tok[MAX_TOKENS] = {0};
-        char cmd[MAX_LINE] = {0};
-        int token_count = 0;
+        // Set up initial string data structures for commands
+        char *cmd_tok[MAX_TOKENS] = {0}; // array of string(tokens)
+        char cmd[MAX_LINE] = {0}; // string of original cmd
+        int token_count = 0; // number of tokens in original cmd
 
         // Print "ishell> " prompt
         printf("ishell> ");
@@ -71,6 +71,21 @@ int main()
             // Parent
             int status;
             waitpid(pid, &status, 0);
+            // Check for errors (status code)
+            if (WIFEXITED(status))
+            {
+                int exit_code = WEXITSTATUS(status);
+                if (exit_code == 0)
+                {
+                    printf("[ishell: program terminated successfully]\n");
+                } 
+                else {
+                    printf("[ishell: program terminated abnormally][exit code: %d]\n", exit_code);
+                }
+            } 
+            else if (WIFSIGNALED(status)) {
+                printf("[ishell: program was terminated by signal %d]\n", WTERMSIG(status));
+            }
         } 
         else {
             perror("fork failed");
