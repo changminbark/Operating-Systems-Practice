@@ -12,6 +12,10 @@
 
 int main() 
 {
+    // Initialize exit flag and enter count
+    int exit_flag = 0;
+    int enter_count = 0;
+
     // Infinite while loop
     while(1) 
     {
@@ -21,7 +25,6 @@ int main()
         char *cmd_tok[MAX_TOKENS] = {0}; // array of string(tokens) for a single command
         int cmd_count = 0; // number of total commands
         int token_count = 0; // number of tokens in a single cmd
-        int exit_flag = 0;
 
         // Print "ishell> " prompt
         printf("ishell> ");
@@ -34,9 +37,21 @@ int main()
         // Remove newline
         cmd[strcspn(cmd, "\n")] = 0;
 
-        // Skip empty input
-        if (cmd[0] == '\0') {
-            continue;
+        // Skip empty input (or check for 2 enters to show ls)
+        if (cmd[0] == '\0') 
+        {
+            enter_count++;
+            if (enter_count == 2) 
+            {
+                strcpy(cmd, "ls");  // simulate user typing 'ls'
+                enter_count = 0;
+            } 
+            else {
+                continue;
+            }
+        } 
+        else {
+            enter_count = 0;  // reset if user types something
         }
 
         // Parse all commands
@@ -47,7 +62,6 @@ int main()
             token = strtok(NULL, ";");
             cmd_count++;
         }
-        all_cmd_tok[cmd_count] = NULL;  // execvp expects a NULL-terminated array
 
         // Invalid parsing
         if (cmd_count <= 0)
