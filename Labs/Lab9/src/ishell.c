@@ -16,9 +16,12 @@ int main()
     while(1) 
     {
         // Set up initial string data structures for commands
-        char *cmd_tok[MAX_TOKENS] = {0}; // array of string(tokens)
         char cmd[MAX_LINE] = {0}; // string of original cmd
-        int token_count = 0; // number of tokens in original cmd
+        char *all_cmd_tok[MAX_TOKENS] = {0};
+        char *cmd_tok[MAX_TOKENS] = {0}; // array of string(tokens) for a single command
+        int cmd_count = 0; // number of total commands
+        int token_count = 0; // number of tokens in a single cmd
+        int exit_flag = 0;
 
         // Print "ishell> " prompt
         printf("ishell> ");
@@ -36,59 +39,87 @@ int main()
             continue;
         }
 
-        // Built-in command: exit
-        if (strcmp(cmd, "exit") == 0) {
-            break;
-        }
-
-        // Parse command
-        char *token = strtok(cmd, " ");
-        while (token != NULL && token_count < MAX_TOKENS - 1)
+        // Parse all commands
+        char *token = strtok(cmd, ";");
+        while (token != NULL && cmd_count < MAX_TOKENS - 1)
         {
-            cmd_tok[token_count] = token;
-            token = strtok(NULL, " ");
-            token_count++;
+            all_cmd_tok[cmd_count] = token;
+            token = strtok(NULL, ";");
+            cmd_count++;
         }
-        cmd_tok[token_count] = NULL;  // execvp expects a NULL-terminated array
+        all_cmd_tok[cmd_count] = NULL;  // execvp expects a NULL-terminated array
 
         // Invalid parsing
-        if (token_count <= 0)
+        if (cmd_count <= 0)
         {
             break;
         }
 
-        // Fork a child process to execvp the command
-        pid_t pid = fork();
-        // child
-        if (pid == 0) 
+        // Parse every command
+        for (int i = 0; i < cmd_count; i++)
         {
-            execvp(cmd_tok[0], cmd_tok);
-            // If child process is not replaced by execvp process
-            perror("execvp failed");
-            exit(EXIT_FAILURE);
-        } 
-        else if (pid > 0) {
-            // Parent
-            int status;
-            waitpid(pid, &status, 0);
-            // Check for errors (status code)
-            if (WIFEXITED(status))
+            char *cleaned_cmd = trim(all_cmd_tok[i]);
+            // Built-in command: exit
+            if (strcmp(cleaned_cmd, "exit") == 0) {
+                exit_flag = 1;
+                break;
+            }
+
+            token_count = 0;
+            char *token = strtok(cleaned_cmd, " ");
+            while (token != NULL && token_count < MAX_TOKENS - 1)
             {
-                int exit_code = WEXITSTATUS(status);
-                if (exit_code == 0)
+                cmd_tok[token_count] = token;
+                token = strtok(NULL, " ");
+                token_count++;
+            }
+            cmd_tok[token_count] = NULL;  // execvp expects a NULL-terminated array
+
+            // Invalid parsing
+            if (token_count <= 0)
+            {
+                break;
+            }
+
+            // Fork a child process to execvp the command
+            pid_t pid = fork();
+            // child
+            if (pid == 0) 
+            {
+                execvp(cmd_tok[0], cmd_tok);
+                // If child process is not replaced by execvp process
+                perror("execvp failed");
+                exit(EXIT_FAILURE);
+            } 
+            else if (pid > 0) {
+                // Parent
+                int status;
+                waitpid(pid, &status, 0);
+                // Check for errors (status code)
+                if (WIFEXITED(status))
                 {
-                    printf("[ishell: program terminated successfully]\n");
+                    int exit_code = WEXITSTATUS(status);
+                    if (exit_code == 0)
+                    {
+                        printf("[ishell: program terminated successfully]\n");
+                    } 
+                    else {
+                        printf("[ishell: program terminated abnormally][exit code: %d]\n", exit_code);
+                    }
                 } 
-                else {
-                    printf("[ishell: program terminated abnormally][exit code: %d]\n", exit_code);
+                else if (WIFSIGNALED(status)) {
+                    printf("[ishell: program was terminated by signal %d]\n", WTERMSIG(status));
                 }
             } 
-            else if (WIFSIGNALED(status)) {
-                printf("[ishell: program was terminated by signal %d]\n", WTERMSIG(status));
+            else {
+                perror("fork failed");
             }
-        } 
-        else {
-            perror("fork failed");
+        }
+
+        // If need to exit
+        if (exit_flag == 1)
+        {
+            break;
         }
     }
 
