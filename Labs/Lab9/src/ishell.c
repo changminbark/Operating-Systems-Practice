@@ -10,6 +10,12 @@
 #define MAX_LINE 1024
 #define MAX_TOKENS 100
 
+/**
+ * This is a lightweight kernel/shell that can run commands. 
+ * It also supports command chaining using ; between commands.
+ * 
+ * EXTRA FEATURE - It also supports running background tasks using & after a command.
+ */
 int main() 
 {
     // Initialize exit flag and enter count
@@ -72,7 +78,9 @@ int main()
         // Parse every command
         for (int i = 0; i < cmd_count; i++)
         {
+            int background = 0; // background flag for running cmd in the background with &
             char *cleaned_cmd = trim(all_cmd_tok[i]);
+
             // Built-in command: exit
             if (strcmp(cleaned_cmd, "exit") == 0) {
                 exit_flag = 1;
@@ -95,6 +103,14 @@ int main()
                 break;
             }
 
+            // Check if command should run in background or not
+            if (strcmp(cmd_tok[token_count - 1], "&") == 0)
+            {
+                background = 1;
+                cmd_tok[token_count - 1] = NULL; // get rid of "&"
+                token_count--;
+            }
+
             // Fork a child process to execvp the command
             pid_t pid = fork();
             // child
@@ -106,23 +122,30 @@ int main()
                 exit(EXIT_FAILURE);
             } 
             else if (pid > 0) {
-                // Parent
-                int status;
-                waitpid(pid, &status, 0);
-                // Check for errors (status code)
-                if (WIFEXITED(status))
+            // Parent
+                if (background == 1) // background process, so we don't care about status
                 {
-                    int exit_code = WEXITSTATUS(status);
-                    if (exit_code == 0)
-                    {
-                        printf("[ishell: program terminated successfully]\n");
-                    } 
-                    else {
-                        printf("[ishell: program terminated abnormally][exit code: %d]\n", exit_code);
-                    }
+                    printf("[ishell: background process %d started] => NOTE THAT the ishell> 
+                        prompt might print before background process result\n", pid);
                 } 
-                else if (WIFSIGNALED(status)) {
-                    printf("[ishell: program was terminated by signal %d]\n", WTERMSIG(status));
+                else {
+                    int status;
+                    waitpid(pid, &status, 0);
+                    // Check for errors (status code)
+                    if (WIFEXITED(status))
+                    {
+                        int exit_code = WEXITSTATUS(status);
+                        if (exit_code == 0)
+                        {
+                            printf("[ishell: program terminated successfully]\n");
+                        } 
+                        else {
+                            printf("[ishell: program terminated abnormally][exit code: %d]\n", exit_code);
+                        }
+                    } 
+                    else if (WIFSIGNALED(status)) {
+                        printf("[ishell: program was terminated by signal %d]\n", WTERMSIG(status));
+                    }
                 }
             } 
             else {
