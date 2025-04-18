@@ -1,0 +1,11 @@
+2.1 - I see the hex values of the ascii of the text. I can also see the text on the right too.
+
+2.2 - I see a lot of 0 hex values. The ascii representation of the binary file is just a bunch of gibberish.
+
+2.3 - 
+Text files (like .c or .h) are encoded in plain ASCII or UTF-8 — directly viewable and editable by humans.
+Binary executables contain compiled instructions, symbol tables, headers, and other metadata — structured for the operating system and CPU, not humans.
+
+2.4 - file(1) uses a magic number database (in /usr/share/misc/magic). It checks the first few bytes of a fileagainst known "magic numbers" (signatures)
+that idnetify types. For instance, ELF (executable and linkable files) start with "0x7F 45 4C 46". Text files contain only readable characters with no special
+byte patterns and shell scripts often start with #!.
