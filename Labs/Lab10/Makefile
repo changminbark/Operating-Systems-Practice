@@ -24,7 +24,7 @@ CC = gcc
 
 CFLAGS = -g -Wall -Werror
 
-EXE = file_stat read_dir fdump
+EXE = file_stat read_dir fdump traverse
 
 all: $(EXE)
 
@@ -32,22 +32,29 @@ file_stat: file_stat.o
 	$(CC) $(CFLAGS) -o file_stat file_stat.o
 
 file_stat.o: file_stat.c
-	$(CC) -c $(CFLAGS) file_stat.c
+	$(CC) $(CFLAGS) -c file_stat.c -o file_stat.o
 
 read_dir: read_dir.o
 	$(CC) -o read_dir read_dir.o
 
-read_dir.o: read_dir.c
-	$(CC) -c $(CFLAGS) read_dir.c
+read_dir.o: read_dir.c read_dir.h
+	$(CC) $(CFLAGS) -c read_dir.c -o read_dir.o
 
 fdump: fdump.o hexdump.o
 	$(CC) $(CFLAGS) -o fdump fdump.o hexdump.o
 
 fdump.o: fdump.c hexdump.h
-	$(CC) $(CFLAGS) -c fdump.c
+	$(CC) $(CFLAGS) -c fdump.c -o fdump.o
 
 hexdump.o: hexdump.c hexdump.h
-	$(CC) $(CFLAGS) -c hexdump.c
+	$(CC) $(CFLAGS) -c hexdump.c -o hexdump.o
 
+traverse: traverse.o
+	$(CC) $(CFLAGS) -o traverse traverse.o
+
+traverse.o: traverse.c read_dir.h
+	$(CC) $(CFLAGS) -c traverse.c -o traverse.o
+
+.PHONY: clean
 clean:
 	/bin/rm -f *~ *.o core $(EXE)
