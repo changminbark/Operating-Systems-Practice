@@ -1,0 +1,34 @@
+(3.1) Provide an example of an operation on a regular file which changes only its time of last status change.
+
+Example:
+chmod +x myfile.txt
+
+Explanation:
+This changes the file permissions (metadata), which updates the ctime (time of last status change), but leaves the contents unchanged, so mtime and atime remain the same.
+
+---
+
+(3.2) Provide an example of an operation on a regular file which changes its time of modification.
+
+Example:
+echo "new content" >> myfile.txt
+
+Explanation:
+Appending text modifies the contents of the file, which updates the mtime (time of last modification) and also the ctime (since metadata changed), but atime may not update depending on system settings (e.g., `relatime` mount option).
+
+---
+
+(3.3) Provide an example of an operation on a regular file which changes its time of last access.
+
+Example:
+cat myfile.txt > /dev/null
+
+Explanation:
+Reading the file (without modifying it) will update the atime (time of last access). Note that on modern systems with `relatime`, atime might not change unless it’s older than mtime or 24 hours.
+
+---
+
+(3.4) Provide an example of an application where knowing the maximum file name length is helpful.
+
+Example:
+A backup tool or file synchronization program (like `rsync` or `tar`) needs to validate or truncate long file names before copying or archiving them to avoid errors. Knowing the file system's maximum filename length (via `statvfs`) allows the program to safely create destination files without exceeding limits (e.g., 255 characters on ext4).
