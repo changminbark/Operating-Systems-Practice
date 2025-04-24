@@ -24,7 +24,7 @@ CC = gcc
 
 CFLAGS = -g -Wall -Werror
 
-EXE = file_stat read_dir fdump traverse
+EXE = file_stat read_dir fdump traverse sender receiver
 
 all: $(EXE)
 
@@ -54,6 +54,18 @@ traverse: traverse.o
 
 traverse.o: traverse.c read_dir.h
 	$(CC) $(CFLAGS) -c traverse.c -o traverse.o
+
+sender: sender.o
+	$(CC) $(CFLAGS) -o sender sender.o
+
+sender.o: sender.c
+	$(CC) $(CFLAGS) -c sender.c -o sender.o
+
+receiver: receiver.o
+	$(CC) $(CFLAGS) -o receiver receiver.o
+
+receiver.o: receiver.c
+	$(CC) $(CFLAGS) -c receiver.c -o receiver.o
 
 .PHONY: clean
 clean:
